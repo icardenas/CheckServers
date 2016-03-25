@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<h1> Home </h1>
+<p> Welcome to my home page. My name is {{ name }}.</p>
+Color {{ carro.color }} <br />
+Marca {{ carro.marca }}<br />
+Marca {{ carro.getMarca() }}<br />
+Marca {{ carro['marca']}}<br />
+Marca {{ carro.getPropietario()}}<br />
+Marca {{ carro.getPropietario().getNumero() }}<br />
+Propietario {{ carro.propietario }}<br />
+Propietario2 {{ carro.Propietario.numero }}<br />
+Propietario {{ carro.propietario.nombre }}<br />
+
+<table id="tCarro">
+    <thead>
+    <th>
+    <tr>Color</tr>
+    <tr>Marca</tr>
+    <tr>numero</tr>
+    <tr>nombre</tr>
+</th>
+</thead>
+<tbody>
+    {# THIS IS A COMMENT #}
+    {% for listaCarro in listaCarros %}
+<td>
+<tr>
+<p>{{ listaCarro.color }}</p>
+</tr>
+<tr>
+<p>{{ listaCarro.marca }}</p>
+</tr>
+<tr>
+<p>{{ listaCarro.propietario.numero }}</p>
+</tr>
+<tr>
+<p>{{ listaCarro.propietario.nombre }}</p>
+</tr>
+</td>
+{% endfor %}
+
+
+</tbody>
+</table>
+{% endblock %}
