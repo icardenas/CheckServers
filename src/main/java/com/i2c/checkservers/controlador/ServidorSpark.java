@@ -6,6 +6,7 @@
 package com.i2c.checkservers.controlador;
 
 import com.i2c.checkservers.App;
+import com.i2c.checkservers.logica.ConsultarServidores;
 import static spark.Spark.*;
 import spark.*;
 import java.util.*;
@@ -59,9 +60,8 @@ public class ServidorSpark {
 //            recorrer(req);
             System.out.println("PARMETROS " + req.queryParams("in_login") + " " + req.queryParams("in_pass"));
             if (!req.queryParams("in_login").isEmpty() && !req.queryParams("in_pass").isEmpty()) {
-                if (req.queryParams("in_login").toLowerCase().equals("ivan".toLowerCase())
-                        && req.queryParams("in_pass").equals("1234")) {
-                    req.session().attribute("usuario", "Ivan");
+                if (req.queryParams("in_login").toLowerCase().equals(req.queryParams("in_pass"))) {
+                    req.session().attribute("usuario", req.queryParams("in_login").toLowerCase());
                     res.redirect("/app");
                 }
             } else if (req.queryParams("in_login").isEmpty()) {
@@ -88,7 +88,12 @@ public class ServidorSpark {
         });
 
         get("/app", (req, res) -> {
-            return getConfPebble().parsePlantilla("principal.html", null);
+            Map<String, Object> mapa = new HashMap<String, Object>();
+            mapa.put("usuario", req.session().attribute("usuario"));
+            ConsultarServidores conServidores = new ConsultarServidores();
+            conServidores.cargarServidores();
+            mapa.put("servidores", conServidores.getListaServidores());
+            return getConfPebble().parsePlantilla("principal.html", mapa);
         });
         get("/app/test", (req, res) -> {
             return getConfPebble().parsePlantilla("test.html", null);

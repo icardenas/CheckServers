@@ -2,7 +2,7 @@
 <html>
     <head>
         <!--Import Google Icon Font-->
-        <link href="/css/icon.css" rel="stylesheet">
+        <link type="text/css"  href="/css/icon.css" rel="stylesheet">
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
 
@@ -38,5 +38,10 @@
         </div>
         <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="/js/materialize.min.js"></script>
+        <script type="text/javascript">
+      $(document).ready(function () {
+          setTimeout(function(){$('#in_login').focus();},800);
+      });
+        </script>
     </body>
 </html>

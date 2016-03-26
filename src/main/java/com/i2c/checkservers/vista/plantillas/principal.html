@@ -1,49 +1,72 @@
 {% extends "base.html" %}
 
-{% block title %} Home {% endblock %}
+{% block title %} Menu APP {% endblock %}
 
 {% block content %}
-<h1> Home </h1>
-<p> Welcome to my home page. My name is {{ name }}.</p>
-Color {{ carro.color }} <br />
-Marca {{ carro.marca }}<br />
-Marca {{ carro.getMarca() }}<br />
-Marca {{ carro['marca']}}<br />
-Marca {{ carro.getPropietario()}}<br />
-Marca {{ carro.getPropietario().getNumero() }}<br />
-Propietario {{ carro.propietario }}<br />
-Propietario2 {{ carro.Propietario.numero }}<br />
-Propietario {{ carro.propietario.nombre }}<br />
+<h3> APP </h3>
+<form id="fr_login" action="logout" method="POST" >
+    <div class="section valign-wrapper center-align icon-preview">
+        <i class="material-icons dp48 right">perm_identity</i> Bienvenido {{usuario}}
+        |
+        <a href="logout"> Cerrar sesion</a> 
+    </div>
+</form>
+<div class="divider"></div>
 
-<table id="tCarro">
-    <thead>
-    <th>
-    <tr>Color</tr>
-    <tr>Marca</tr>
-    <tr>numero</tr>
-    <tr>nombre</tr>
-</th>
-</thead>
-<tbody>
-    {# THIS IS A COMMENT #}
-    {% for listaCarro in listaCarros %}
-<td>
-<tr>
-<p>{{ listaCarro.color }}</p>
-</tr>
-<tr>
-<p>{{ listaCarro.marca }}</p>
-</tr>
-<tr>
-<p>{{ listaCarro.propietario.numero }}</p>
-</tr>
-<tr>
-<p>{{ listaCarro.propietario.nombre }}</p>
-</tr>
-</td>
-{% endfor %}
+{% if servidores is empty %}
+No Hay Servidores
+{% else %}
+<ul class="collapsible collection" data-collapsible="expandable">
+    {% for servidor in servidores %}
+    <li>
+        <div id="id_{{servidor.ip}}" class="collapsible-header active orange lighten-1">
+            <i class="material-icons disabled">settings_remote</i>
+            {{servidor.dominio}} ({{servidor.ip}})
+            {% if servidor.listaAplicaciones is not empty %}
+            <div class="chip right center-align">
+                {{ servidor.listaAplicaciones.size }}
+            </div>
+            {% endif %}
+        </div>
+        {% if servidor.listaAplicaciones is not empty %}
+        <div class="collapsible-body">
+            <ul class="collection icon-preview">
+                {% for aplicacion in servidor.listaAplicaciones %}
+                <li class="collection-item">
+                    <div class="row" style="margin-bottom: 0px;">
+                        <div class="col s6 m6 l6 valign-wrapper center-align icon-preview">
+                            <i class="center-align material-icons">http</i>{{aplicacion.nombre}}
+                        </div><div class="col s6 m6 l6" >
+                            <a target="_blank" href="{{aplicacion.protocolo}}://{{servidor.ip}}:{{aplicacion.puerto}}/{{aplicacion.urlServicio}}" class="secondary-content right">
+                                <i class="material-icons right">send</i></a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<br />
+<div class="divider"></div>
 
+{% endblock %}
 
-</tbody>
-</table>
+{% block footer %}
+icardenas - Copyright 2016
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        if ($('.collapsible >li .active').length == 0)
+        {
+            $('.collapsible > li > .collapsible-header').click();
+        } else {
+            $('.collapsible >li .active').click();
+        }
+    });
+
+</script>
 {% endblock %}
