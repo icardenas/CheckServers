@@ -5,6 +5,7 @@
  */
 package com.i2c.checkservers.controlador;
 
+import com.i2c.checkservers.App;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.loader.FileLoader;
@@ -32,11 +33,10 @@ public class ConfiguracionPebble {
     }
 
     public void inicializar() {
-        File archivo = new File(ConfiguracionPebble.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         FileLoader fileLoader = new FileLoader();
-        fileLoader.setPrefix(archivo.getParent() + "\\vista\\plantillas");
+        fileLoader.setPrefix(App.RUTA_RECURSOS + "\\vista\\plantillas");
         PebbleEngine.Builder builder = new PebbleEngine.Builder();
-        builder.strictVariables(true).loader(fileLoader);
+        builder.strictVariables(true).cacheActive(false).loader(fileLoader);
         engine = builder.build();
     }
 

@@ -15,15 +15,18 @@ import com.i2c.checkservers.controlador.*;
  */
 public class App {
 
+    public static final String RUTA_RECURSOS = new File(App.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        PropertyConfigurator.configure(new File(App.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent() + "\\log4j.properties");
+        PropertyConfigurator.configure(RUTA_RECURSOS + "\\log4j.properties");
         ConfiguracionPebble configPebble = new ConfiguracionPebble();
         ServidorSpark sp = new ServidorSpark(configPebble);
         configPebble.inicializar();
-        System.out.println("TEXTO TEST \n"+configPebble.parsePlantilla("test.html", null));
+        sp.crearConfiguracion();
+        sp.runServidor();
     }
 
 }
