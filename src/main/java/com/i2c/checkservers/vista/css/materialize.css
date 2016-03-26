@@ -9906,6 +9906,11 @@ select {
   height: 36px;
 }
 
+.preloader-wrapper.tiny {
+  width: 20px;
+  height: 20px;
+}
+
 .preloader-wrapper.big {
   width: 64px;
   height: 64px;

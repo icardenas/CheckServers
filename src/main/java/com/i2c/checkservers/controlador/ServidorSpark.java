@@ -10,6 +10,7 @@ import com.i2c.checkservers.logica.ConsultarServidores;
 import static spark.Spark.*;
 import spark.*;
 import java.util.*;
+import java.net.*;
 
 /**
  *
@@ -36,20 +37,47 @@ public class ServidorSpark {
     }
 
     public void crearConfiguracion() {
-        port(80);
+        int puerto = 80;
+        port(puerto);
+        crearRuta(puerto);
         externalStaticFileLocation(App.RUTA_RECURSOS + "/vista");
         System.out.println("EXTERNA LOCATION " + App.RUTA_RECURSOS + "/vista");
 //        staticFileLocation(App.RUTA_RECURSOS + "/vistas");
+    }
+
+    public void crearRuta(int _puerto) {
+        try {
+            Enumeration e = NetworkInterface.getNetworkInterfaces();
+            logger.error("RUTAS SERVIDOR");
+            while (e.hasMoreElements()) {
+                NetworkInterface n = (NetworkInterface) e.nextElement();
+                Enumeration ee = n.getInetAddresses();
+                while (ee.hasMoreElements()) {
+                    InetAddress i = (InetAddress) ee.nextElement();
+                    if (i.getHostAddress().length() < 16) {
+                        logger.error("http://" + i.getHostAddress() + ":" + _puerto + "/app");
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            logger.error(ex.getMessage());
+        }
     }
 
     public void runServidor() {
 
         before((request, response) -> {
             logger.debug(request.contextPath() + " " + request.uri() + " " + request.session().attribute("usuario"));
+            if (request.url().endsWith("/app/server")) {
+
+            } else if (request.url().endsWith("/app") && request.session().attribute("usuario") == null) {
+                request.session(true);
+                response.redirect("/app/login");
+            }
             if (request.url().contains("/app") == true && request.url().contains("/app/login") == false && request.session().attribute("usuario") == null) {
                 request.session(true);
                 response.redirect("/app/login");
-            } else if (request.url().contains("/app/login") == true || request.session().attribute("usuario") != null) {
+            } else if (request.url().contains("/app") == true || request.session().attribute("usuario") != null) {
 
             } else {
 
@@ -85,6 +113,17 @@ public class ServidorSpark {
         get("/app/login", (req, res) -> {
 //            recorrer(req);
             return getConfPebble().parsePlantilla("login.html", null);
+        });
+
+        get("/app/server/:ip", (req, res) -> {
+//            recorrer(req);
+            ConsultarServidores conServidores = new ConsultarServidores();
+            conServidores.checkOnlineServr(req.params(":ip"));
+            return conServidores.checkOnlineServr(req.params(":ip")) ? "up" : "down";
+        });
+        post("/app/server/:ip", (req, res) -> {
+//            recorrer(req);
+            return "Hello: " + req.params(":ip");
         });
 
         get("/app", (req, res) -> {

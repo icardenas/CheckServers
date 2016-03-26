@@ -4,7 +4,7 @@
 
 {% block content %}
 <h3> APP </h3>
-<form id="fr_login" action="logout" method="POST" >
+<form id="fr_login" action="app/logout" method="POST" >
     <div class="section valign-wrapper center-align icon-preview">
         <i class="material-icons dp48 right">perm_identity</i> Bienvenido {{usuario}}
         |
@@ -19,14 +19,33 @@ No Hay Servidores
 <ul class="collapsible collection" data-collapsible="expandable">
     {% for servidor in servidores %}
     <li>
-        <div id="id_{{servidor.ip}}" class="collapsible-header active orange lighten-1">
-            <i class="material-icons disabled">settings_remote</i>
-            {{servidor.dominio}} ({{servidor.ip}})
-            {% if servidor.listaAplicaciones is not empty %}
-            <div class="chip right center-align">
-                {{ servidor.listaAplicaciones.size }}
+        <div id="id_{{servidor.ip}}"  class="collapsible-header {{servidor.status ? "active white":"orange" }} lighten-1">
+            <div class="row" style="margin-bottom: 0px;">
+                <div class="col s10 m10 l10 valign-wrapper center-align icon-preview">
+                    <i class="material-icons small disabled">settings_remote</i>
+                    {{servidor.dominio}} ({{servidor.ip}})
+                </div>
+                <div class="col s1 m1 l1 push-s10 right-align icon-preview ">
+                    <div id="id_loader_{{servidor.ip}}" class="preloader-wrapper tiny active hide">
+                        <div class="spinner-layer spinner-green-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s1 m1 l1 right" >
+                    {% if servidor.listaAplicaciones is not empty %}
+                    <div class="chip">
+                        {{ servidor.listaAplicaciones.size }}
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-            {% endif %}
         </div>
         {% if servidor.listaAplicaciones is not empty %}
         <div class="collapsible-body">
@@ -34,9 +53,26 @@ No Hay Servidores
                 {% for aplicacion in servidor.listaAplicaciones %}
                 <li class="collection-item">
                     <div class="row" style="margin-bottom: 0px;">
-                        <div class="col s6 m6 l6 valign-wrapper center-align icon-preview">
-                            <i class="center-align material-icons">http</i>{{aplicacion.nombre}}
-                        </div><div class="col s6 m6 l6" >
+                        <div class="col s1 m1 l1 valign-wrapper center-align icon-preview">
+                            <i class="center-align small material-icons" >http</i>
+                        </div>
+                        <div class="col s5 m5 l5 valign-wrapper center-align icon-preview">
+                            {{aplicacion.nombre}}
+                        </div>
+                        <div class="col s2 m2 l2 push-s6" >
+                            <div class="preloader-wrapper tiny active hide">
+                                <div class="spinner-layer spinner-green-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                        <div class="col s4 m4 l4 right" >
                             <a target="_blank" href="{{aplicacion.protocolo}}://{{servidor.ip}}:{{aplicacion.puerto}}/{{aplicacion.urlServicio}}" class="secondary-content right">
                                 <i class="material-icons right">send</i></a>
                         </div>
@@ -56,17 +92,79 @@ No Hay Servidores
 {% endblock %}
 
 {% block footer %}
+<div id="console"></div>
 icardenas - Copyright 2016
 <script type="text/javascript">
     $(document).ready(function () {
 
-        if ($('.collapsible >li .active').length == 0)
-        {
-            $('.collapsible > li > .collapsible-header').click();
-        } else {
-            $('.collapsible >li .active').click();
-        }
+//        if ($('.collapsible >li .active').length == 0)
+//        {
+//            $('.collapsible > li > .collapsible-header').click();
+//        } else {
+//            $('.collapsible >li .active').click();
+//        }
+
+        setTimeout('consultarConectados()', 2000);
+        setTimeout('consultarDesconectados()', 3000);
     });
+
+
+
+    function consultarConectados() {
+//        $("#console").append($('.collapsible >li .white .preloader-wrapper.hide').length+ " "+new Date());
+//        console.log("consultarConectador")
+        setTimeout('consultarConectados()', 40000);
+        var listServerActivos = $('.collapsible >li .white .preloader-wrapper.hide');
+        for (var i = 0, max = listServerActivos.length; i < max; i++) {
+            getInfoServer(listServerActivos[i], listServerActivos[i].id.replace("id_loader_", ""));
+        }
+
+    }
+
+    function consultarDesconectados() {
+        setTimeout('consultarDesconectados()', 15000);
+        var listServerActivos = $('.collapsible >li .orange .preloader-wrapper.hide');
+        for (var i = 0, max = listServerActivos.length; i < max; i++) {
+            getInfoServer(listServerActivos[i], listServerActivos[i].id.replace("id_loader_", ""));
+        }
+    }
+
+    function getInfoServer(elemento, ip) {
+//        console.log("DIRECCION " + ip)
+        jQuery.ajax({
+            type: "GET",
+            url: "app/server/" + ip,
+            beforeSend: function () {
+                $(elemento).removeClass('hide');
+                // this is where we append a loading image
+//                console.log("ANTES DE ENVIAR")
+            },
+            success: function (data, status, jqXHR) {
+                // do something
+
+                if (data == "up") {
+                    console.log("SUBIR" + ip);
+                    if($(elemento).parent().parent().parent().hasClass('orange')){
+                        $(elemento).parent().parent().parent().click();
+                    }
+                    
+                    $(elemento).parent().parent().parent().addClass('white');
+                    $(elemento).parent().parent().parent().removeClass('orange');
+                } else {
+                    console.log("ABAJO " + ip);
+                    $(elemento).parent().parent().parent().removeClass('white');
+                    $(elemento).parent().parent().parent().addClass('orange');
+                }
+                $(elemento).addClass('hide');
+            },
+            error: function (jqXHR, status) {
+                $(elemento).addClass('hide');
+                console.log
+                // error handler
+            }
+        }
+        );
+    }
 
 </script>
 {% endblock %}
