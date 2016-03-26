@@ -7,6 +7,8 @@ package com.i2c.checkservers.controlador;
 
 import com.i2c.checkservers.App;
 import static spark.Spark.*;
+import spark.*;
+import java.util.*;
 
 /**
  *
@@ -40,31 +42,76 @@ public class ServidorSpark {
     }
 
     public void runServidor() {
+
         before((request, response) -> {
-            logger.info(request.contextPath()+" "+request.uri()+" "+request.session().attribute("usuario"));
-            if (request.url().contains("/app/login") == false && request.session().attribute("usuario") == null) {
+            logger.debug(request.contextPath() + " " + request.uri() + " " + request.session().attribute("usuario"));
+            if (request.url().contains("/app") == true && request.url().contains("/app/login") == false && request.session().attribute("usuario") == null) {
                 request.session(true);
-                request.session().attribute("usuario", "Ivan");
                 response.redirect("/app/login");
+            } else if (request.url().contains("/app/login") == true || request.session().attribute("usuario") != null) {
+
+            } else {
+
             }
         });
+
+        post("/app/login", (req, res) -> {
+//            recorrer(req);
+            System.out.println("PARMETROS " + req.queryParams("in_login") + " " + req.queryParams("in_pass"));
+            if (!req.queryParams("in_login").isEmpty() && !req.queryParams("in_pass").isEmpty()) {
+                if (req.queryParams("in_login").toLowerCase().equals("ivan".toLowerCase())
+                        && req.queryParams("in_pass").equals("1234")) {
+                    req.session().attribute("usuario", "Ivan");
+                    res.redirect("/app");
+                }
+            } else if (req.queryParams("in_login").isEmpty()) {
+
+            }
+            if (req.queryParams("in_pass").isEmpty()) {
+
+            }
+
+            return getConfPebble().parsePlantilla("login.html", null);
+        });
+
         get("/app/logout", (request, response) -> {
             logger.info(request.session().id());
             request.session().invalidate();
             logger.info(request.session().id());
-            response.redirect("/app");
+            response.redirect("/app/login");
             return "Salida";
         });
+
         get("/app/login", (req, res) -> {
+//            recorrer(req);
             return getConfPebble().parsePlantilla("login.html", null);
         });
-        get("/app", (req, res) -> "Menu");
-        get("/app/hola", (req, res) -> "hola spark");
+
+        get("/app", (req, res) -> {
+            return getConfPebble().parsePlantilla("principal.html", null);
+        });
         get("/app/test", (req, res) -> {
             return getConfPebble().parsePlantilla("test.html", null);
         });
 
     }
-    
- 
+
+    public void recorrer(Request req) {
+        Set<String> listaAtributos = req.attributes();
+        for (String elemento : listaAtributos) {
+            logger.info("Elemento " + elemento);
+        }
+
+        Map<String, String> listaParametros = req.params();
+        listaAtributos = listaParametros.keySet();
+        for (String listaAtributo : listaAtributos) {
+            logger.info("Parametos " + listaAtributo);
+        }
+        listaAtributos = req.queryParams();
+        for (String listaAtributo : listaAtributos) {
+            logger.info("QueryParametos " + listaAtributo);
+            logger.info("QueryParametos " + req.queryParams(listaAtributo));
+        }
+    }
+
 }

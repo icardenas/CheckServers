@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -51,7 +49,7 @@ public class ConfiguracionPebble {
             compiledTemplate = engine.getTemplate(_nombrePlantilla);
             compiledTemplate.evaluate(writer, _map);
         } catch (PebbleException | IOException ex) {
-            Logger.getLogger(ConfiguracionPebble.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         return writer.toString();
     }
