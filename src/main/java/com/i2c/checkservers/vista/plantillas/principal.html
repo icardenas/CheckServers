@@ -144,15 +144,19 @@ icardenas - Copyright 2016
 
                 if (data == "up") {
                     console.log("SUBIR" + ip);
-                    if($(elemento).parent().parent().parent().hasClass('orange')){
+                    if ($(elemento).parent().parent().parent().hasClass('orange')
+                            && $(elemento).parent().parent().parent().hasClass('active') == false) {
+                        $(elemento).parent().parent().parent().removeClass('orange');
                         $(elemento).parent().parent().parent().click();
                     }
-                    
                     $(elemento).parent().parent().parent().addClass('white');
-                    $(elemento).parent().parent().parent().removeClass('orange');
                 } else {
                     console.log("ABAJO " + ip);
-                    $(elemento).parent().parent().parent().removeClass('white');
+                    if ($(elemento).parent().parent().parent().hasClass('white') 
+                            && $(elemento).parent().parent().parent().hasClass('active') == true) {
+                        $(elemento).parent().parent().parent().removeClass('white');
+                        $(elemento).parent().parent().parent().click();
+                    }
                     $(elemento).parent().parent().parent().addClass('orange');
                 }
                 $(elemento).addClass('hide');

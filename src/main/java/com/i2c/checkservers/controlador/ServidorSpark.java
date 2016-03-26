@@ -74,7 +74,7 @@ public class ServidorSpark {
                 request.session(true);
                 response.redirect("/app/login");
             }
-            if (request.url().contains("/app") == true && request.url().contains("/app/login") == false && request.session().attribute("usuario") == null) {
+            else if (request.url().contains("/app") == true && request.url().contains("/app/login") == false && request.session().attribute("usuario") == null) {
                 request.session(true);
                 response.redirect("/app/login");
             } else if (request.url().contains("/app") == true || request.session().attribute("usuario") != null) {
@@ -119,11 +119,14 @@ public class ServidorSpark {
 //            recorrer(req);
             ConsultarServidores conServidores = new ConsultarServidores();
             conServidores.checkOnlineServr(req.params(":ip"));
+            logger.info(req.session().attribute("usuario"));
             return conServidores.checkOnlineServr(req.params(":ip")) ? "up" : "down";
         });
         post("/app/server/:ip", (req, res) -> {
-//            recorrer(req);
-            return "Hello: " + req.params(":ip");
+            ConsultarServidores conServidores = new ConsultarServidores();
+            conServidores.checkOnlineServr(req.params(":ip"));
+            logger.info(req.session().attribute("usuario"));
+            return conServidores.checkOnlineServr(req.params(":ip")) ? "up" : "down";
         });
 
         get("/app", (req, res) -> {
