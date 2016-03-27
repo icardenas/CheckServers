@@ -3,6 +3,7 @@
 {% block title %} Menu APP {% endblock %}
 
 {% block content %}
+
 <h3> APP </h3>
 <form id="fr_login" action="app/logout" method="POST" >
     <div class="section valign-wrapper center-align icon-preview">
@@ -12,14 +13,29 @@
     </div>
 </form>
 <div class="divider"></div>
+<div class="row">
+    <div class="input-field col s4 m4 l4 center-align "> <!-- Note that "m8 l9" was added -->
+        <input class="with-gap" name="group1" type="radio" id="in_todos" checked />
+        <label for="in_todos">Todos</label>
 
+        <input class="with-gap" name="group1" type="radio" id="in_activos" />
+        <label for="in_activos">Activos</label>
+
+        <input class="with-gap" name="group1" type="radio" id="in_inactivos"  />
+        <label for="in_inactivos">Inactivos</label>
+    </div>
+    <div class="input-field col s5 m5 l5 center-align "> <!-- Note that "m8 l9" was added -->
+        <input id="in_filtro" name="in_filtro" type="text" class="validate">
+        <label for="Filtro">Filtro</label>
+    </div>
+</div>
 {% if servidores is empty %}
 No Hay Servidores
 {% else %}
 <ul class="collapsible collection" data-collapsible="expandable">
     {% for servidor in servidores %}
-    <li>
-        <div id="id_{{servidor.ip}}"  class="collapsible-header {{servidor.status ? "active white":"orange" }} lighten-1">
+    <li id="id_{{servidor.ip}}">
+        <div class="collapsible-header {{servidor.status ? "active white":"orange" }} lighten-1">
             <div class="row" style="margin-bottom: 0px;">
                 <div class="col s10 m10 l10 valign-wrapper center-align icon-preview">
                     <i class="material-icons small disabled">settings_remote</i>
@@ -106,6 +122,36 @@ icardenas - Copyright 2016
 
         setTimeout('consultarConectados()', 2000);
         setTimeout('consultarDesconectados()', 3000);
+
+        $("#in_filtro").keyup(function () {
+            var listaNodos = $(".collapsible >li");
+            var valFiltro = $("#in_filtro").val();
+            for (var i = 0, max = listaNodos.length; i < max; i++) {
+                if (listaNodos[i].id.indexOf(valFiltro) > -1) {
+//                    console.debug("contenido " + valFiltro);
+                    $(listaNodos[i]).removeClass("hide2");
+                } else {
+                    $(listaNodos[i]).addClass("hide2");
+                }
+            }
+        });
+
+
+        $('input[name="group1"]').on('change', function () {
+            console("valor radio" + $(this).val())
+
+
+//            var listaNodos = $(".collapsible >li");
+//            var valFiltro = $("#in_filtro").val();
+//            for (var i = 0, max = listaNodos.length; i < max; i++) {
+//                if (listaNodos[i].id.indexOf(valFiltro) > -1) {
+////                    console.debug("contenido " + valFiltro);
+//                    $(listaNodos[i]).removeClass("hide2");
+//                } else {
+//                    $(listaNodos[i]).addClass("hide2");
+//                }
+//            }
+        });
     });
 
 
@@ -143,7 +189,7 @@ icardenas - Copyright 2016
                 // do something
 
                 if (data == "up") {
-                    console.log("SUBIR" + ip);
+//                    console.log("SUBIR" + ip);
                     if ($(elemento).parent().parent().parent().hasClass('orange')
                             && $(elemento).parent().parent().parent().hasClass('active') == false) {
                         $(elemento).parent().parent().parent().removeClass('orange');
@@ -151,8 +197,8 @@ icardenas - Copyright 2016
                     }
                     $(elemento).parent().parent().parent().addClass('white');
                 } else {
-                    console.log("ABAJO " + ip);
-                    if ($(elemento).parent().parent().parent().hasClass('white') 
+//                    console.log("ABAJO " + ip);
+                    if ($(elemento).parent().parent().parent().hasClass('white')
                             && $(elemento).parent().parent().parent().hasClass('active') == true) {
                         $(elemento).parent().parent().parent().removeClass('white');
                         $(elemento).parent().parent().parent().click();
@@ -163,7 +209,7 @@ icardenas - Copyright 2016
             },
             error: function (jqXHR, status) {
                 $(elemento).addClass('hide');
-                console.log
+                console.log(status)
                 // error handler
             }
         }
@@ -171,4 +217,9 @@ icardenas - Copyright 2016
     }
 
 </script>
+<style>
+    .hide2 {
+        display: none !important;
+    }
+</style>
 {% endblock %}

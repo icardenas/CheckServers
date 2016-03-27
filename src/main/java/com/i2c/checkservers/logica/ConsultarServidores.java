@@ -30,7 +30,7 @@ public class ConsultarServidores {
     public void cargarServidores() {
         listaServidores = new ArrayList<>();
         //TODO CONSULTA A BD
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 40; i++) {
             Servidor server = new Servidor("192.168.2." + i, "dominio.p" + i, false, "PLANTA", true, i * 100);
             if (i < 2) {
                 server.setInicializa(false);
@@ -55,7 +55,8 @@ public class ConsultarServidores {
         try {
             InetAddress address = InetAddress.getByName(_host);
             if (address.isReachable(100)) {
-                System.out.println("DISPONIBLE " + _host + " " + address.getHostAddress() + " " + address.getHostName());
+                System.out.println("DISPONIBLE " + _host + " " + address.getHostAddress() + " "
+                        + address.getHostName() + " " + address.getCanonicalHostName());
                 return true;
             }
         } catch (IOException ex) {
