@@ -119,13 +119,13 @@ public class ServidorSpark {
 //            recorrer(req);
             ConsultarServidores conServidores = new ConsultarServidores();
             conServidores.checkOnlineServr(req.params(":ip"));
-            logger.info(req.session().attribute("usuario"));
+//            logger.info(req.session().attribute("usuario"));
             return conServidores.checkOnlineServr(req.params(":ip")) ? "up" : "down";
         });
         post("/app/server/:ip", (req, res) -> {
             ConsultarServidores conServidores = new ConsultarServidores();
             conServidores.checkOnlineServr(req.params(":ip"));
-            logger.info(req.session().attribute("usuario"));
+//            logger.info(req.session().attribute("usuario"));
             return conServidores.checkOnlineServr(req.params(":ip")) ? "up" : "down";
         });
 
