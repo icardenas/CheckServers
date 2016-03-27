@@ -14,7 +14,7 @@
 </form>
 <div class="divider"></div>
 <div class="row">
-    <div class="input-field col s4 m4 l4 center-align "> <!-- Note that "m8 l9" was added -->
+    <div class="input-field col s12 m6 l6 center-align "> <!-- Note that "m8 l9" was added -->
         <input class="with-gap" name="group1" type="radio" id="in_todos" value="todos" checked />
         <label for="in_todos">Todos</label>
 
@@ -24,7 +24,7 @@
         <input class="with-gap" name="group1" type="radio" value="inactivos"  id="in_inactivos"  />
         <label for="in_inactivos">Inactivos</label>
     </div>
-    <div class="input-field col s5 m5 l5 center-align "> <!-- Note that "m8 l9" was added -->
+    <div class="input-field col s12 m6 l6 center-align "> <!-- Note that "m8 l9" was added -->
         <input id="in_filtro" name="in_filtro" type="text" class="validate">
         <label for="Filtro">Filtro</label>
     </div>
@@ -67,8 +67,8 @@ No Hay Servidores
         <div class="collapsible-body">
             <ul class="collection icon-preview">
                 {% for aplicacion in servidor.listaAplicaciones %}
-                <li class="collection-item">
-                    <div class="row" style="margin-bottom: 0px;">
+                <li class="collection-item teal lighten-4">
+                    <div class="row " style="margin-bottom: 0px;">
                         <div class="col s1 m1 l1 valign-wrapper center-align icon-preview">
                             <i class="center-align small material-icons" >http</i>
                         </div>
@@ -87,6 +87,9 @@ No Hay Servidores
                                     </div>
                                 </div>
                             </div>  
+                            <i class="center-align small material-icons pointer" >info</i>
+                            <i class="center-align small material-icons hide pointer" >done</i>
+                            <input type="hidden" value="{{aplicacion.protocolo}}://{{servidor.ip}}:{{aplicacion.puerto}}/{{aplicacion.urlServicio}}" />
                         </div>
                         <div class="col s4 m4 l4 right" >
                             <a target="_blank" href="{{aplicacion.protocolo}}://{{servidor.ip}}:{{aplicacion.puerto}}/{{aplicacion.urlServicio}}" class="secondary-content right">
@@ -122,6 +125,7 @@ icardenas - Copyright 2016
 
         setTimeout('consultarConectados()', 2000);
         setTimeout('consultarDesconectados()', 3000);
+        setTimeout('verificarActividad()', 5000);
         $("#in_filtro").keyup(function () {
             aplicarFiltroTexto();
         });
@@ -129,7 +133,57 @@ icardenas - Copyright 2016
             aplicarFiltroRadion($(this).val());
             aplicarFiltroTexto();
         });
+        $('.collapsible-body .col .pointer').click(function () {
+            testServicio(this);
+        })
     });
+
+    function verificarActividad() {
+        aplicarFiltroRadion($('input[name="group1"]:checked').val());
+        aplicarFiltroTexto();
+        setTimeout('verificarActividad()', 5000);
+
+    }
+
+    function testServicio(elemento) {
+        console.log(elemento);
+        if ($(elemento).parent().children('.preloader-wrapper').hasClass('hide')) {
+            jQuery.ajax({
+                type: "GET",
+                url: $(elemento).parent().children('input').val(),
+                beforeSend: function () {
+                    $(elemento).parent().children('.preloader-wrapper').removeClass('hide');
+                    $(elemento).addClass('hide');
+                },
+                success: function (data, status, jqXHR) {
+                    // do something
+                    $(elemento).parent().children('.preloader-wrapper').addClass('hide');
+                    console.log("RESPUESTA " + data)
+                    if (data == 'OK') {
+//                        $(elemento).removeClass('hide');
+                        $(elemento).parent().children('i:contains("done")').removeClass('hide')
+                        $(elemento).parent().children('.material-icons .hide').addClass('hide');
+                        $(elemento).parent().parent().parent().removeClass('teal').addClass('white');
+                    } else {
+                        $(elemento).removeClass('hide');
+                        $(elemento).parent().parent().parent().removeClass('teal').addClass('red');
+                    }
+                },
+                error: function (jqXHR, status) {
+                    console.log(status);
+                    $(elemento).parent().children('.preloader-wrapper').addClass('hide');
+                    $(elemento).removeClass('hide');
+                    $(elemento).parent().parent().parent().removeClass('teal').addClass('red');
+                }
+            }
+            );
+        } else {
+            console.log($(elemento).parent().children('.preloader-wrapper'))
+            console.log('Deberia estar consultando')
+        }
+
+
+    }
 
     function aplicarFiltroTexto() {
         var listaNodos = $(".collapsible >li");
@@ -165,13 +219,8 @@ icardenas - Copyright 2016
             }
             default:
                 $('.collapsible >li').removeClass("hide3");
-
         }
-
     }
-
-
-
 
     function consultarConectados() {
 //        $("#console").append($('.collapsible >li .white .preloader-wrapper.hide').length+ " "+new Date());
@@ -181,7 +230,6 @@ icardenas - Copyright 2016
         for (var i = 0, max = listServerActivos.length; i < max; i++) {
             getInfoServer(listServerActivos[i], listServerActivos[i].id.replace("id_loader_", ""));
         }
-
     }
 
     function consultarDesconectados() {
@@ -240,6 +288,9 @@ icardenas - Copyright 2016
     }
     .hide3 {
         display: none !important;
+    }
+    .pointer{
+        cursor:pointer;
     }
 </style>
 {% endblock %}

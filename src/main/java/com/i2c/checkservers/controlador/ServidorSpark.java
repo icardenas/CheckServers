@@ -122,6 +122,11 @@ public class ServidorSpark {
 //            logger.info(req.session().attribute("usuario"));
             return conServidores.checkOnlineServr(req.params(":ip")) ? "up" : "down";
         });
+        get("/app/servers/180", (req, res) -> {
+//            logger.info(req.session().attribute("usuario"));
+            System.out.println("ENTRO a SERVICIOS OK");
+            return "OK";
+        });
         post("/app/server/:ip", (req, res) -> {
             ConsultarServidores conServidores = new ConsultarServidores();
             conServidores.checkOnlineServr(req.params(":ip"));
