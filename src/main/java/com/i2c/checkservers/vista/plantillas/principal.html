@@ -15,13 +15,13 @@
 <div class="divider"></div>
 <div class="row">
     <div class="input-field col s4 m4 l4 center-align "> <!-- Note that "m8 l9" was added -->
-        <input class="with-gap" name="group1" type="radio" id="in_todos" checked />
+        <input class="with-gap" name="group1" type="radio" id="in_todos" value="todos" checked />
         <label for="in_todos">Todos</label>
 
-        <input class="with-gap" name="group1" type="radio" id="in_activos" />
+        <input class="with-gap" name="group1" type="radio" value="activos" id="in_activos" />
         <label for="in_activos">Activos</label>
 
-        <input class="with-gap" name="group1" type="radio" id="in_inactivos"  />
+        <input class="with-gap" name="group1" type="radio" value="inactivos"  id="in_inactivos"  />
         <label for="in_inactivos">Inactivos</label>
     </div>
     <div class="input-field col s5 m5 l5 center-align "> <!-- Note that "m8 l9" was added -->
@@ -122,37 +122,54 @@ icardenas - Copyright 2016
 
         setTimeout('consultarConectados()', 2000);
         setTimeout('consultarDesconectados()', 3000);
-
         $("#in_filtro").keyup(function () {
-            var listaNodos = $(".collapsible >li");
-            var valFiltro = $("#in_filtro").val();
-            for (var i = 0, max = listaNodos.length; i < max; i++) {
-                if (listaNodos[i].id.indexOf(valFiltro) > -1) {
-//                    console.debug("contenido " + valFiltro);
-                    $(listaNodos[i]).removeClass("hide2");
-                } else {
-                    $(listaNodos[i]).addClass("hide2");
-                }
-            }
+            aplicarFiltroTexto();
         });
-
-
         $('input[name="group1"]').on('change', function () {
-            console("valor radio" + $(this).val())
-
-
-//            var listaNodos = $(".collapsible >li");
-//            var valFiltro = $("#in_filtro").val();
-//            for (var i = 0, max = listaNodos.length; i < max; i++) {
-//                if (listaNodos[i].id.indexOf(valFiltro) > -1) {
-////                    console.debug("contenido " + valFiltro);
-//                    $(listaNodos[i]).removeClass("hide2");
-//                } else {
-//                    $(listaNodos[i]).addClass("hide2");
-//                }
-//            }
+            aplicarFiltroRadion($(this).val());
+            aplicarFiltroTexto();
         });
     });
+
+    function aplicarFiltroTexto() {
+        var listaNodos = $(".collapsible >li");
+        var valFiltro = $("#in_filtro").val();
+        for (var i = 0, max = listaNodos.length; i < max; i++) {
+            if (listaNodos[i].id.indexOf(valFiltro) > -1) {
+//                    console.debug("contenido " + valFiltro);
+                $(listaNodos[i]).removeClass("hide2");
+            } else {
+                $(listaNodos[i]).addClass("hide2");
+            }
+        }
+    }
+
+    function aplicarFiltroRadion(opcion) {
+        switch (opcion) {
+            case "todos":
+            {
+                $('.collapsible >li').removeClass("hide3");
+                break;
+            }
+            case "activos":
+            {
+                $('.collapsible >li .orange').parent().addClass("hide3");
+                $('.collapsible >li .white').parent().removeClass("hide3");
+                break;
+            }
+            case "inactivos":
+            {
+                $('.collapsible >li .orange').parent().removeClass("hide3");
+                $('.collapsible >li .white').parent().addClass("hide3");
+                break;
+            }
+            default:
+                $('.collapsible >li').removeClass("hide3");
+
+        }
+
+    }
+
 
 
 
@@ -219,6 +236,9 @@ icardenas - Copyright 2016
 </script>
 <style>
     .hide2 {
+        display: none !important;
+    }
+    .hide3 {
         display: none !important;
     }
 </style>
