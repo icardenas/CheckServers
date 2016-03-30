@@ -8,6 +8,7 @@ package com.i2c.checkservers;
 import org.apache.log4j.*;
 import java.io.File;
 import com.i2c.checkservers.controlador.*;
+import com.i2c.checkservers.logica.UtilidadJson;
 
 /**
  *
@@ -21,7 +22,7 @@ public class App {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        PropertyConfigurator.configure(RUTA_RECURSOS + "\\log4j.properties");
+        PropertyConfigurator.configure(RUTA_RECURSOS + "/log4j.properties");
         ConfiguracionPebble configPebble = new ConfiguracionPebble();
         ServidorSpark sp = new ServidorSpark(configPebble);
         configPebble.inicializar();

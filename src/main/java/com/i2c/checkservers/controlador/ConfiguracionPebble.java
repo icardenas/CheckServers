@@ -32,7 +32,7 @@ public class ConfiguracionPebble {
 
     public void inicializar() {
         FileLoader fileLoader = new FileLoader();
-        fileLoader.setPrefix(App.RUTA_RECURSOS + "\\vista\\plantillas");
+        fileLoader.setPrefix(App.RUTA_RECURSOS + "/vista/plantillas");
         PebbleEngine.Builder builder = new PebbleEngine.Builder();
         builder.strictVariables(true).cacheActive(false).loader(fileLoader);
         engine = builder.build();

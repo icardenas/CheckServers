@@ -85,5 +85,12 @@ public class Servidor {
     public void setOrden(int orden) {
         this.orden = orden;
     }
+
+    @Override
+    public String toString() {
+        return "Servidor{" + "ip=" + ip + ", dominio=" + dominio + ", status=" + status + ", listaAplicaciones=" + listaAplicaciones + ", localidad=" + localidad + ", inicializa=" + inicializa + ", orden=" + orden + '}';
+    }
+    
+    
     
 }

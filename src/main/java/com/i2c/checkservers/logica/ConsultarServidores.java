@@ -39,7 +39,7 @@ public class ConsultarServidores {
                 server.setLocalidad("REMOTA");
             }
 //            server.setStatus(checkOnlineServr(server.getIp()));
-            if (i == 1 || i == 3 || i == 8 || i==22) {
+            if (i == 1 || i == 3 || i == 8 || i == 22) {
                 List<Aplicacion> listaApp = new ArrayList<>();
                 for (int j = 80; j < 84; j++) {
                     Aplicacion app = new Aplicacion("http", "" + j, "/app", "app/servers/1" + j);
@@ -51,6 +51,11 @@ public class ConsultarServidores {
         }
     }
 
+    public void cargarServidores2() {
+        UtilidadJson instance = new UtilidadJson();
+        listaServidores=instance.CargarValores();
+    }
+
     public boolean checkOnlineServr(String _host) {
         try {
             InetAddress address = InetAddress.getByName(_host);
@@ -58,9 +63,11 @@ public class ConsultarServidores {
                 System.out.println("DISPONIBLE " + _host + " " + address.getHostAddress() + " "
                         + address.getHostName() + " " + address.getCanonicalHostName());
                 return true;
+
             }
         } catch (IOException ex) {
-            Logger.getLogger(ConsultarServidores.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConsultarServidores.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }

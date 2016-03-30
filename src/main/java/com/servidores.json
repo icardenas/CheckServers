@@ -1,0 +1,288 @@
+[
+    {
+        "ip": "192.168.101.61",
+        "dominio": "cdsan.paisa.com.ve",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true,
+        "orden": 1,
+        "listaAplicaciones": [{
+                "protocolo": "http",
+                "puerto": "8080",
+                "nombre": "FenixV",
+                "urlServicio": "wmfenixv/version"
+            }]
+    },
+    {
+        "ip": "192.168.111.6",
+        "dominio": "tierra",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.117",
+        "dominio": "Saturno",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.9",
+        "dominio": "VPN",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.4",
+        "dominio": "Correo",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.55",
+        "dominio": "Cisco",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.220.97",
+        "dominio": "StartTeam",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.11",
+        "dominio": "Sincronizador",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.7",
+        "dominio": "SvrctXXXX",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.28",
+        "dominio": "Dominio Nuevo",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.29",
+        "dominio": "Dominio",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.222.25",
+        "dominio": "cdmer.paisa.com.ve",
+        "status": true,
+        "localidad": "Remoto",
+        "inicializa": true,
+        "orden": 1,
+        "listaAplicaciones": [{
+                "protocolo": "http",
+                "puerto": "8787",
+                "nombre": "FenixV",
+                "urlServicio": "wmfenixv/version"
+            }]
+    },
+    {
+        "ip": "192.168.111.154",
+        "dominio": "sin dominio",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true,
+        "orden": 1,
+        "listaAplicaciones": [
+            {
+                "protocolo": "http",
+                "puerto": "7075",
+                "nombre": "Ventas Principal",
+                "urlServicio": "wmfenixv"
+            },
+            {
+                "protocolo": "http",
+                "puerto": "7075",
+                "nombre": "Reclamos",
+                "urlServicio": "wmfenixv"
+            },
+            {
+                "protocolo": "http",
+                "puerto": "7075",
+                "nombre": "Emi",
+                "urlServicio": "wmfenixv"
+            },
+            {
+                "protocolo": "http",
+                "puerto": "7070",
+                "nombre": "Ventas San Cristobal",
+                "urlServicio": "wmfenixv"
+            },
+            {
+                "protocolo": "http",
+                "puerto": "7070",
+                "nombre": "Ventas Sincro",
+                "urlServicio": "Sincronizador"
+            },
+            {
+                "protocolo": "http",
+                "puerto": "7065",
+                "nombre": "Ventas Bodegon",
+                "urlServicio": "wmfenixv"
+            },
+            {
+                "protocolo": "http",
+                "puerto": "8484",
+                "nombre": "HD",
+                "urlServicio": "FenixHD"
+            },
+            {
+                "protocolo": "http",
+                "puerto": "8080",
+                "nombre": "Humanix",
+                "urlServicio": "FenixHumanix"
+            },
+            {
+                "protocolo": "http",
+                "puerto": "8080",
+                "nombre": "Humanix",
+                "urlServicio": "Seguridad"
+            }
+        ]
+    },
+    {
+        "ip": "192.168.111.54",
+        "dominio": "NominaX",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true,
+        "listaAplicaciones": [
+            {
+                "protocolo": "http",
+                "puerto": "7075",
+                "nombre": "Nomina",
+                "urlServicio": "wmfenixv"
+            }, {
+                "protocolo": "http",
+                "puerto": "7075",
+                "nombre": "Sca",
+                "urlServicio": "wmfenixv"
+            }]
+    },
+    {
+        "ip": "192.168.111.58",
+        "dominio": "Dominio",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.25",
+        "dominio": "Bacula",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.23",
+        "dominio": "Venus",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.3",
+        "dominio": "Marte",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.22",
+        "dominio": "Mandrake",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.78",
+        "dominio": "Ventas P",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.88",
+        "dominio": "Cdsan",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.250",
+        "dominio": "Cdsan",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.24",
+        "dominio": "OVM Server",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.26",
+        "dominio": "OVM server 2",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.30",
+        "dominio": "OVM server 2",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.14",
+        "dominio": "OVM server 3",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.2",
+        "dominio": "Proxy",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.239",
+        "dominio": "OVM server 3",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    },
+    {
+        "ip": "192.168.111.1",
+        "dominio": "OVM server 3",
+        "status": true,
+        "localidad": "Local",
+        "inicializa": true
+    }
+]

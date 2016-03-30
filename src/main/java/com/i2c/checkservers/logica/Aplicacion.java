@@ -54,7 +54,11 @@ public class Aplicacion {
     public void setUrlServicio(String urlServicio) {
         this.urlServicio = urlServicio;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Aplicacion{" + "protocolo=" + protocolo + ", puerto=" + puerto + ", nombre=" + nombre + '}';
+    }
     
 
 }

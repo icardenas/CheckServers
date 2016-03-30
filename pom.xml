@@ -74,6 +74,7 @@
                 <targetPath>${project.build.directory}</targetPath>
                 <includes>
                     <include>**/*.properties</include>
+                    <include>**/*.json</include>
                 </includes>
                 <!--                <excludes>
                     <exclude>**/*.bmp</exclude>

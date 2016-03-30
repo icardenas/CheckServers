@@ -138,7 +138,7 @@ public class ServidorSpark {
             Map<String, Object> mapa = new HashMap<String, Object>();
             mapa.put("usuario", req.session().attribute("usuario"));
             ConsultarServidores conServidores = new ConsultarServidores();
-            conServidores.cargarServidores();
+            conServidores.cargarServidores2();
             mapa.put("servidores", conServidores.getListaServidores());
             return getConfPebble().parsePlantilla("principal.html", mapa);
         });
