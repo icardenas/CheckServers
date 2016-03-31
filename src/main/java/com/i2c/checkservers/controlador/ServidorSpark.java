@@ -90,6 +90,7 @@ public class ServidorSpark {
             if (!req.queryParams("in_login").isEmpty() && !req.queryParams("in_pass").isEmpty()) {
                 if (req.queryParams("in_login").toLowerCase().equals(req.queryParams("in_pass"))) {
                     req.session().attribute("usuario", req.queryParams("in_login").toLowerCase());
+                    req.session().attribute("horaInicio",new Date(req.session().creationTime()));
                     res.redirect("/app");
                 }
             } else if (req.queryParams("in_login").isEmpty()) {
@@ -137,6 +138,7 @@ public class ServidorSpark {
         get("/app", (req, res) -> {
             Map<String, Object> mapa = new HashMap<String, Object>();
             mapa.put("usuario", req.session().attribute("usuario"));
+            mapa.put("horaInicio", req.session().attribute("horaInicio"));
             ConsultarServidores conServidores = new ConsultarServidores();
             conServidores.cargarServidores2();
             mapa.put("servidores", conServidores.getListaServidores());

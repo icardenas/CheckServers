@@ -4,12 +4,22 @@
 
 {% block content %}
 
-<h3> APP </h3>
 <form id="fr_login" action="app/logout" method="POST" >
-    <div class="section valign-wrapper center-align icon-preview">
-        <i class="material-icons dp48 right">perm_identity</i> Bienvenido {{usuario}}
-        |
-        <a href="app/logout"> Cerrar sesion</a> 
+    <div class="row">
+        <div class="col s12 m6 l6">
+            <h3> APP </h3>
+        </div>
+        <div class="col s12 m6 l6">
+            <div class="icon-preview right-align">
+                <i class="material-icons dp48 ">perm_identity</i> {{usuario}} 
+                |
+                <a href="app/logout"> Cerrar sesion</a>
+
+            </div>
+            <div class="icon-preview right-align">
+                {{horaInicio}}
+            </div>
+        </div>
     </div>
 </form>
 <div class="divider"></div>
@@ -35,7 +45,8 @@ No Hay Servidores
 <ul class="collapsible collection" data-collapsible="expandable">
     {% for servidor in servidores %}
     <li id="id_{{servidor.ip}}">
-        <div class="collapsible-header {{servidor.status ? "active white":"orange" }} lighten-1">
+        <div class="collapsible-header {{servidor.status ? "active white":"orange" }} lighten-1 tooltipped"
+             data-position="top" data-delay="50" data-tooltip="{{servidor.dominio}} ({{servidor.ip}})">
             <div class="row" style="margin-bottom: 0px;">
                 <div class="col s10 m10 l10 valign-wrapper center-align icon-preview">
                     <i class="material-icons small disabled">settings_remote</i>
@@ -56,7 +67,8 @@ No Hay Servidores
                 </div>
                 <div class="col s1 m1 l1 right" >
                     {% if servidor.listaAplicaciones is not empty %}
-                    <div class="chip">
+                    <div class="chip tooltipped"
+                         data-position="top" data-delay="50" data-tooltip="Cantidad Servicios {{ servidor.listaAplicaciones.size }}">
                         {{ servidor.listaAplicaciones.size }}
                     </div>
                     {% endif %}
@@ -87,8 +99,10 @@ No Hay Servidores
                                     </div>
                                 </div>
                             </div>  
-                            <i class="center-align small material-icons pointer" >info</i>
-                            <i class="center-align small material-icons hide pointer" >done</i>
+                            <i class="center-align small material-icons pointer tooltipped"
+                               data-position="top" data-delay="50" data-tooltip="Click para probar servicio" >info</i>
+                            <i class="center-align small material-icons hide pointer tooltipped"
+                               data-position="top" data-delay="50" data-tooltip="Servicio OK" >done</i>
                             <input type="hidden" value="{{aplicacion.protocolo}}://{{servidor.ip}}:{{aplicacion.puerto}}/{{aplicacion.urlServicio}}" />
                         </div>
                         <div class="col s4 m4 l4" >
@@ -116,12 +130,12 @@ icardenas - Copyright 2016
 <script type="text/javascript">
     $(document).ready(function () {
 
-//        if ($('.collapsible >li .active').length == 0)
-//        {
-//            $('.collapsible > li > .collapsible-header').click();
-//        } else {
-//            $('.collapsible >li .active').click();
-//        }
+        //        if ($('.collapsible >li .active').length == 0)
+        //        {
+        //            $('.collapsible > li > .collapsible-header').click();
+        //        } else {
+        //            $('.collapsible >li .active').click();
+        //        }
 
         setTimeout('consultarConectados()', 2000);
         setTimeout('consultarDesconectados()', 3000);
@@ -160,7 +174,7 @@ icardenas - Copyright 2016
                     $(elemento).parent().children('.preloader-wrapper').addClass('hide');
                     console.log("RESPUESTA " + data)
                     if (data == 'OK') {
-//                        $(elemento).removeClass('hide');
+                        //                        $(elemento).removeClass('hide');
                         $(elemento).parent().children('i:contains("done")').removeClass('hide')
                         $(elemento).parent().children('.material-icons .hide').addClass('hide');
                         $(elemento).parent().parent().parent().removeClass('teal').addClass('white');
@@ -190,7 +204,7 @@ icardenas - Copyright 2016
         var valFiltro = $("#in_filtro").val();
         for (var i = 0, max = listaNodos.length; i < max; i++) {
             if (listaNodos[i].id.indexOf(valFiltro) > -1) {
-//                    console.debug("contenido " + valFiltro);
+                //                    console.debug("contenido " + valFiltro);
                 $(listaNodos[i]).removeClass("hide2");
             } else {
                 $(listaNodos[i]).addClass("hide2");
@@ -223,8 +237,8 @@ icardenas - Copyright 2016
     }
 
     function consultarConectados() {
-//        $("#console").append($('.collapsible >li .white .preloader-wrapper.hide').length+ " "+new Date());
-//        console.log("consultarConectador")
+        //        $("#console").append($('.collapsible >li .white .preloader-wrapper.hide').length+ " "+new Date());
+        //        console.log("consultarConectador")
         setTimeout('consultarConectados()', 40000);
         var listServerActivos = $('.collapsible >li .white .preloader-wrapper.hide');
         for (var i = 0, max = listServerActivos.length; i < max; i++) {
@@ -241,20 +255,20 @@ icardenas - Copyright 2016
     }
 
     function getInfoServer(elemento, ip) {
-//        console.log("DIRECCION " + ip)
+        //        console.log("DIRECCION " + ip)
         jQuery.ajax({
             type: "GET",
             url: "app/server/" + ip,
             beforeSend: function () {
                 $(elemento).removeClass('hide');
                 // this is where we append a loading image
-//                console.log("ANTES DE ENVIAR")
+                //                console.log("ANTES DE ENVIAR")
             },
             success: function (data, status, jqXHR) {
                 // do something
 
                 if (data == "up") {
-//                    console.log("SUBIR" + ip);
+                    //                    console.log("SUBIR" + ip);
                     if ($(elemento).parent().parent().parent().hasClass('orange')
                             && $(elemento).parent().parent().parent().hasClass('active') == false) {
                         $(elemento).parent().parent().parent().removeClass('orange');
@@ -262,7 +276,7 @@ icardenas - Copyright 2016
                     }
                     $(elemento).parent().parent().parent().addClass('white');
                 } else {
-//                    console.log("ABAJO " + ip);
+                    //                    console.log("ABAJO " + ip);
                     if ($(elemento).parent().parent().parent().hasClass('white')
                             && $(elemento).parent().parent().parent().hasClass('active') == true) {
                         $(elemento).parent().parent().parent().removeClass('white');
